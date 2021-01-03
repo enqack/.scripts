@@ -1,0 +1,7 @@
+#!/bin/sh
+# Opens a basic yes/no prompt with demu
+
+if [ "$(printf "No\nYes" | dmenu -i -p "$1")" = "Yes" ]; then
+	$2
+fi
+
