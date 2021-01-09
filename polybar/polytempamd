@@ -1,0 +1,6 @@
+#!/bin/sh
+# Simple script to show the cpu temp formatted to be shown in polybar
+
+temp=$(sensors -u | grep "temp1_input" | sed "s/temp1_input: \([0-9]*\)/\1/")
+echo "$temp"
+#°C
