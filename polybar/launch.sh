@@ -4,6 +4,7 @@ killall -q polybar
 
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-polybar bottom &
+polybar primary_bottom &
 
-echo "Polybar launched..."
+polybar secondary_bottom &
+
