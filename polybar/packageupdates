@@ -1,0 +1,3 @@
+#!/bin/sh
+
+emerge -puDNv --with-bdeps y @system @world | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}'
