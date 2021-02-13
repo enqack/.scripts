@@ -4,7 +4,7 @@ killall -q polybar
 
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-polybar primary_bottom &
+polybar primary &
 
-polybar secondary_bottom &
+polybar secondary &
 
