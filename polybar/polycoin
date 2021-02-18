@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+
+import argparse
+import requests
+
+from babel import numbers
+
+
+class PolyCoin():
+    """
+    """
+
+    QUERY_URL = "https://api.coinbase.com/v2/prices/%s/spot?currency=%s"
+
+    currency = "USD"
+
+    token = "BTC"
+
+    def set_currency(self, currency):
+        self.currency = currency
+
+    def set_token(self, token):
+        self.token = token
+
+    def get_price(self):
+        r = requests.get(self.QUERY_URL % (self.token + "-" + self.currency, self.currency))
+        if r.json().get('errors') != None:
+            print('Error:', r.json()['errors'][0]['message'])
+        else:
+            print(self.token, numbers.format_currency(r.json()['data']['amount'], self.currency))
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-t', '--token', type=str)
+parser.add_argument('-c', '--currency', type=str)
+
+args = parser.parse_args()
+
+pc = PolyCoin()
+if args.currency != None:
+    pc.set_currency(args.currency.upper())
+if args.token != None:
+    pc.set_token(args.token.upper())
+pc.get_price()
+
