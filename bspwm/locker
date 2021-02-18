@@ -1,3 +1,14 @@
 #!/bin/sh
 
-i3lock --clock --timecolor=ffffffff --datecolor=ffffffff --nofork --color 000000 --show-failed-attempts --ignore-empty-password
+i3lock \
+  --nofork \
+  --clock \
+  --timecolor=ffffffff \
+  --datecolor=ffffffff \
+  --color=000000 \
+  --show-failed-attempts \
+  --ignore-empty-password \
+  --wrongtext="Denied!" \
+  --noinputtext="No Input." \
+  --veriftext="Verifying..."
+
