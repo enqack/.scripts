@@ -5,4 +5,4 @@ exec xautolock \
   -time 30 \
   -locker $HOME/.scripts/bspwm/locker \
   -notify 30 \
-  -notifier "notify-send -u critical -t 30000 -- 'Locking screen in 30 seconds'"
+  -notifier "notify-send -t 30000 -- 'Locking screen in 30 seconds'"
