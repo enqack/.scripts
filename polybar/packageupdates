@@ -1,3 +1,3 @@
 #!/bin/sh
 
-emerge -puDNv --with-bdeps y @system @world 2> /dev/null 2> /dev/null 2> /dev/null 2> /dev/null 2> /dev/null 2> /dev/null 2> /dev/null 2> /dev/null | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}'
+emerge -puDNv --with-bdeps y @system @world 2> /dev/null | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}'

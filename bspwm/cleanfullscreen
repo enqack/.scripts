@@ -36,15 +36,10 @@ do
   PrimaryMonitor=$(bspc query -M -m primary)
   # Hide bar and nodes when node becomes fullscreen, otherwise show
   if [ "$State" = "fullscreen" ] && [ "$Active" = "on" ]; then
-    # Only consider nodes on primary monitor
-    if [ "$PrimaryMonitor" = "$Monitor" ]; then
-      HideBar
-    fi
-      HideTiled "$Desktop"
+    HideBar
+    HideTiled "$Desktop"
   else
-    if [ "$PrimaryMonitor" = "$Monitor" ]; then
-      ShowBar
-    fi
+    ShowBar
     ShowNodes "$Desktop"
   fi
 done &
@@ -54,8 +49,7 @@ do
   PrimaryMonitor="$(bspc query -M -m primary)"
 
   # Show bar if no nodes are fullscreen on current desktop
-  if [ "$Monitor" = "$PrimaryMonitor" ] && \
-    [ -z "$(bspc query -N -n .fullscreen -d "$Desktop")" ]; then
+  if [ -z "$(bspc query -N -n .fullscreen -d "$Desktop")" ]; then
     ShowBar
   fi
   ShowNodes "$Desktop"
@@ -84,14 +78,11 @@ do
   PrimaryMonitor="$(bspc query -M -m primary)"
   FullscreenNode="$(bspc query -N -n .fullscreen -d "$Desktop")"
 
-  # Only consider nodes on primary monitor
-  if [ "$PrimaryMonitor" = "$Monitor" ]; then
-    # Hide bar if desktop contains fullscreen node
-    if [ -n "$FullscreenNode" ]; then
-      HideBar
+  # Hide bar if desktop contains fullscreen node
+  if [ -n "$FullscreenNode" ]; then
+    HideBar
     # Otherwise show the bar
-    else
-      ShowBar
-    fi
+  else
+    ShowBar
   fi
 done &
