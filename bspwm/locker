@@ -3,12 +3,12 @@
 i3lock \
   --nofork \
   --clock \
-  --timecolor=ffffffff \
-  --datecolor=ffffffff \
-  --color=000000 \
+  --time-color=ffffffff \
+  --date-color=ffffffff \
+  --color=000000ff \
   --show-failed-attempts \
   --ignore-empty-password \
-  --wrongtext="Denied!" \
-  --noinputtext="No Input." \
-  --veriftext="Verifying..."
+  --wrong-text="Denied!" \
+  --noinput-text="No Input." \
+  --verif-text="Verifying..."
 
