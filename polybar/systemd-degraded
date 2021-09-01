@@ -1,0 +1,9 @@
+#!/bin/sh
+
+COUNT=$(systemctl status --no-pager | head | grep Failed | awk '{print $2}')
+
+if [ "$COUNT" -gt 0 ]; then
+  echo "%{F#ed0b0b}$COUNT"
+else
+  echo "%{F#00ff00}$COUNT"
+fi
