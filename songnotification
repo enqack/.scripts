@@ -1,0 +1,3 @@
+#!/bin/sh
+media=$(playerctl metadata --format "Title: {{ xesam:title }}\nArtist: {{ xesam:artist }}\nAlbum: {{ xesam:album }}")
+notify-send "Media Player" "$media"
