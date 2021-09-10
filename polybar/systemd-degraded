@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" == "open" ]; then
-  $TERMINAL -name polybar-float -e systemctl list-units --quiet --failed
+  $TERMINAL --title polybar-float -e systemctl list-units --quiet --failed
 fi
 
 COUNT=$(systemctl status --no-pager | head | grep Failed | awk '{print $2}')

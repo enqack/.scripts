@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" == "open" ]; then
-  $TERMINAL -name polybar-float -e sudo emerge -auDNv --with-bdeps y @system @world
+  $TERMINAL --title polybar-float -e sudo emerge -auDNv --with-bdeps y @system @world
 fi
 
 COUNT=$(emerge -puDNv --with-bdeps y @system @world 2> /dev/null | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}')
