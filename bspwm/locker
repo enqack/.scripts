@@ -3,6 +3,8 @@
 i3lock \
   --nofork \
   --clock \
+  --time-str="%H:%M:%S" \
+  --date-str="%a %Y-%m-%d" \
   --time-color=ffffffff \
   --date-color=ffffffff \
   --color=000000ff \
