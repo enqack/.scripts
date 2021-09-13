@@ -1,0 +1,8 @@
+#!/bin/sh
+
+
+LINE_COUNT=$(transmission-remote -l | wc -l)
+TORRENT_COUNT=$((LINE_COUNT - 2))
+
+echo $TORRENT_COUNT
+
