@@ -1,0 +1,15 @@
+#!/bin/sh
+
+export DISPLAY=:1
+
+IMG_DIR=${1:-"${HOME}/Pictures"}
+
+IMG_FILE=$(find $IMG_DIR -type f | shuf -n 1)
+
+HEAD_COUNT=$(xrandr --listmonitors | grep Monitors: | cut -d" " -f2)
+
+for i in $(seq 0 $(($HEAD_COUNT - 1)));
+do
+  nitrogen --set-zoom-fill --head=$i $IMG_FILE
+done
+
