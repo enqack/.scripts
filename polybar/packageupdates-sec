@@ -1,9 +1,15 @@
 #!/bin/sh
 
-COUNT=$(emerge -puDNv --with-bdeps y @security 2> /dev/null | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}')
+RELEASE=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
+
+if [ "$RELEASE" == "gentoo" ]; then
+  COUNT=$(emerge -puDNv --with-bdeps y @security 2> /dev/null | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}')
+else
+  exit
+fi
 
 if [ "$COUNT" -gt 0 ]; then
-  echo "%{F#ed0b0b}$COUNT"
+  echo "Security Updates: %{F#ed0b0b}$COUNT"
 else
-  echo "%{F#00ff00}$COUNT"
+  echo "Security Updates: %{F#00ff00}$COUNT"
 fi
