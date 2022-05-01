@@ -1,10 +1,10 @@
 #!/bin/bash
 
-function cleanup {
+cleanup () {
 	jobs -p | cut -d " " -f 4 | xargs kill
 }
 
-trap cleanup EXIT SIGHUP SIGINT SIGTERM
+trap cleanup SIGHUP SIGINT SIGTERM
 
 xdotool behave_screen_edge left exec bspc desktop -f prev &
 xdotool behave_screen_edge right exec bspc desktop -f next &
