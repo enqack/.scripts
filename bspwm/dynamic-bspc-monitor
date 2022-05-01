@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# get monitor count
+MONITOR_COUNT=$(xrandr --listmonitors | head -1 | cut -d " " -f 2)
+
+# determine desktop tag divisions
+if [ "$MONITOR_COUNT" -eq "1" ]; then
+  desks=("1 2 3 4 5 6 7 8 9 0")
+elif [ "$MONITOR_COUNT" -eq "2" ]; then
+  desks=("1 2 3 4 5" "6 7 8 9 0")
+elif [ "$MONITOR_COUNT" -gt "2" ]; then
+  desks=("1 2 3" "4 5 6" "7 8 9")
+fi
+
+for i in $(seq $MONITOR_COUNT); do
+  # get name of monitor port
+  port=$(xrandr --listmonitors | sed -n $((i+1))p | cut -d " " -f 6)
+
+  # don't assign desktop tags to more than 3 monitors
+  if [ "$MONITOR_COUNT" -lt "3" ]; then
+    bspc monitor $port -d ${desks[$((i-1))]}
+  fi
+done
