@@ -1,0 +1,15 @@
+#!/bin/sh
+# Generate a script file in .scripts directory
+
+printf "File Name: "
+read -r answer
+
+file=$HOME/.scripts/$answer
+
+if [ -e "$file" ]; then
+  $EDITOR "$file"
+else
+  echo "#!/bin/sh" >> "$file"
+  chmod u+x "$file"
+  $EDITOR "$file"
+fi
