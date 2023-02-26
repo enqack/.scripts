@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use utf8;
+use Getopt::Long;
+
+# default values
+my $t_warn = $ENV{T_WARN} // 50;
+my $t_crit = $ENV{T_CRIT} // 75;
+my $ram_usage = -1;
+my $decimals = $ENV{DECIMALS} // 2;
+my $label = $ENV{LABEL} // "";
+
+sub help {
+    print "Usage: polyram [-w <warning>] [-c <critical>] [-d <decimals>]\n";
+    print "-w <percent>: warning threshold to become yellow\n";
+    print "-c <percent>: critical threshold to become red\n";
+    print "-d <decimals>:  Use <decimals> decimals for percentage (default is $decimals) \n";
+    exit 0;
+}
+
+GetOptions("help|h" => \&help,
+           "w=i"    => \$t_warn,
+           "c=i"    => \$t_crit,
+           "d=i"    => \$decimals,
+);
+
+# Get RAM usage
+$ram_usage = `free | grep Mem | awk '{print \$3/\$2 * 100.0}'`;
+
+$ram_usage eq -1 and die 'Can\'t find CPU information';
+
+# Print color, if needed
+if ($ram_usage >= $t_crit) {
+    print "%{F#ed0b0b}";
+} elsif ($ram_usage >= $t_warn) {
+    print "%{F#f2e421}";
+}
+print "${label}";
+printf "%.${decimals}f%%\n", $ram_usage;
+
+exit 0;
