@@ -1,13 +1,13 @@
 #!/bin/sh
 
 if [ "$1" == "open" ]; then
-  $TERMINAL --title polybar-float -e sudo emerge -auDNv --with-bdeps y @system @world
+  $TERMINAL --title polybar-float -e sudo emerge -auDNv --with-bdeps y @world
 fi
 
 RELEASE=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
 
 if [ "$RELEASE" == "gentoo" ]; then
-  COUNT=$(emerge -puDNv --with-bdeps y @system @world 2> /dev/null | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}')
+  COUNT=$(emerge -puDNv --with-bdeps y @world 2> /dev/null | grep "Total" | awk '{split($0,pkginfo," "); print pkginfo[2]}')
 else
   COUNT=$(pacman -Qu | wc -l)
 fi
