@@ -1,0 +1,86 @@
+#!/bin/sh
+# Hides polybar and unfocused windows when a window is set to full screen mode.
+
+
+hide_bar () {
+  polybar-msg cmd hide
+}
+
+show_bar () {
+  polybar-msg cmd show
+}
+
+hide_nodes () {
+  for node in $1; do
+    bspc node "$node" -g hidden=on
+  done
+}
+
+hide_tiled () {
+  Nodes=$(bspc query -N -n .tiled -d "$1")
+  hide_nodes "$Nodes"
+}
+
+show_nodes () {
+  Nodes=$(bspc query -N -n .hidden -d "$1")
+
+  for node in $Nodes; do
+    bspc node "$node" -g hidden=off
+  done
+}
+
+bspc subscribe node_state | while read -r event monitor desktop node state active
+do
+  primary_monitor=$(bspc query -M -m primary)
+  # Hide bar and nodes when node becomes fullscreen, otherwise show
+  if [ "$state" = "fullscreen" ] && [ "$active" = "on" ]; then
+    hide_bar
+    hide_tiled "$desktop"
+  else
+    show_bar
+    show_nodes "$desktop"
+  fi
+done &
+
+bspc subscribe node_remove | while read event monitor desktop node
+do
+  primary_monitor="$(bspc query -M -m primary)"
+
+  # Show bar if no nodes are fullscreen on current desktop
+  if [ -z "$(bspc query -N -n .fullscreen -d "$desktop")" ]; then
+    show_bar
+  fi
+  show_nodes "$desktop"
+done &
+
+bspc subscribe node_transfer | while read -r event src_monitor src_desktop src_node dest_monitor dest_desktop dest_node
+do
+  # Show nodes on src desktop and hide nodes on dest desktop
+  # If src node is in full screen mode
+  if [ -n "$(bspc query -N -n "$src_node".fullscreen)" ]; then
+    show_nodes "$src_desktop"
+    hide_tiled "$dest_desktop"
+    show_bar
+  fi
+
+  # Hide any fullscreen nodes on destination desktop
+  full_screen_dest=$(bspc query -N -n .fullscreen -d "$dest_desktop" \
+    | sed "/$SrcNode/d")
+  if [ -n "$full_screen_dest" ]; then
+    hide_nodes "$full_screen_dest"
+  fi
+done &
+
+bspc subscribe desktop_focus | while read -r event monitor desktop
+do
+  primary_monitor="$(bspc query -M -m primary)"
+  full_screen_node="$(bspc query -N -n .fullscreen -d "$desktop")"
+
+  # Hide bar if desktop contains fullscreen node
+  if [ -n "$full_screen_node" ]; then
+    hide_bar
+    # Otherwise show the bar
+  else
+    show_bar
+  fi
+done &
