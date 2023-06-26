@@ -1,10 +1,17 @@
-#!/bin/bash
+#!/bin/sh
+
+EDGE_DELAY=1000 # milliseconds
 
 cleanup () {
-	jobs -p | cut -d " " -f 4 | xargs kill
+  pkill -P $$
+  exit 0
 }
 
 trap cleanup SIGHUP SIGINT SIGTERM
 
-xdotool behave_screen_edge left exec bspc desktop -f prev &
-xdotool behave_screen_edge right exec bspc desktop -f next &
+xdotool behave_screen_edge --delay $EDGE_DELAY left exec bspc desktop -f prev &
+xdotool behave_screen_edge --delay $EDGE_DELAY right exec bspc desktop -f next &
+
+while true; do
+  sleep 1
+done
