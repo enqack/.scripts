@@ -1,12 +1,12 @@
 # .scripts
 
-Used in conjunction with https://gethub.com/enqack/.dotfiles.git
+Used in conjunction with https://github.com/enqack/.dotfiles.git
 
 ## Getting started
 
-`git clone https://gethub.com/enqack/.scripts.git`
+`git clone https://github.com/enqack/.scripts.git`
 
-`git clone https://gethub.com/enqack/.dotfiles.git`
+`git clone https://github.com/enqack/.dotfiles.git`
 
 `cd .dotfiles`
 
