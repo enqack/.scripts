@@ -1,0 +1,10 @@
+#!/bin/sh
+
+osr_file=/etc/os-release
+
+if [ ! -f $osr_file ]; then
+  echo "$(basename $0): $osr_file file not found!"
+  exit 1
+fi
+
+awk -F= '$1=="ID" { print $2 ;}' $osr_file
