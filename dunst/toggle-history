@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# get notifications in history
+count=$(dunstctl count | grep History | cut -d " " -f 16)
+
+# close notifcations displayed if shown
+if [ $count -eq 0 ]; then
+  dunstctl close-all
+fi
+
+# show each notification in history
+while [ $count -gt 0 ]
+do
+  dunstctl history-pop
+  count=$(dunstctl count | grep History | cut -d " " -f 16)
+done
+
