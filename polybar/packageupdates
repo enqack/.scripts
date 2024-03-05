@@ -12,8 +12,17 @@ else
   COUNT=$(pacman -Qu | wc -l)
 fi
 
-if [ "$COUNT" -gt 0 ]; then
-  echo "Updates: %{F#ed0b0b}$COUNT"
-else
-  echo "Updates: %{F#00ff00}$COUNT"
+# if count is a number display it or an error
+if [[ "$COUNT" =~ ^[0-9]+$ ]]; then
+  # if count is greater than 0 color it red; otherwise green
+  if [ "$COUNT" -gt 0 ]; then
+    echo "Updates: %{F#ed0b0b}$COUNT"
+  else
+    echo "Updates: %{F#00ff00}$COUNT"
+  fi
+  exit 0
 fi
+
+echo "Updates: %{F#ed0b0b}Error"
+exit 1
+
