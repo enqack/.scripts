@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+hyprctl dispatch exec "[workspace 1 silent] google-chrome-stable"
+sleep 1
+
+hyprctl dispatch exec "[workspace 3 silent] $TERMINAL"
+sleep 1
+
+hyprctl dispatch exec "[workspace 4 silent] code"
+sleep 1
+
+hyprctl dispatch exec "[workspace 10 silent] youtube-music"
+sleep 1

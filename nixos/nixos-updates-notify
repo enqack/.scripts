@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+updates=$($HOME/.scripts/nixos/nixos-updates)
+
+if [ $(echo $updates | wc -l) -gt 0 ]; then
+    notify-send "Updates Available" "$(printf "%s\n" "$updates" | sed -r "s/\x1B\[[0-9;]*[mK]//g")"
+fi
