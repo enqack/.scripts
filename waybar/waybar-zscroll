@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+scroll_text=${1:-"scroll-text.txt"}
+length=100
+
+# pad text so scrolling starts from the right
+spaces=$(printf '%*s' "$length" "")
+content=$(cat $scroll_text)
+
+zscroll -p " | " --delay 0.15 \
+    --length $length \
+    --scroll-padding " " \
+    --update-interval 1 \
+    --match-command "echo \"$spaces$content\"" \
+    --update-check true \
+    "echo \"$spaces$content\"" &
+wait
+
