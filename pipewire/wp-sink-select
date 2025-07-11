@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+import subprocess
+import re
+
+# Run wpctl and capture its output
+status = subprocess.run(["wpctl", "status", "-k"], capture_output=True, text=True).stdout
+
+outputs = []
+collecting = False
+
+for line in status.splitlines():
+    line = line.rstrip()
+    if "Sinks:" in line:
+        collecting = True
+        continue
+    if collecting:
+        if re.match(r'^\s*\│$', line):
+            break  # end of sink section
+
+        match = re.match(r'^\s\│\s+(\*?)\s*(\d+)\.\s+(.*?)\s+\[vol:.*\]$', line)
+        if match:
+            default_mark = match.group(1)
+            sink_id = match.group(2)
+            name = match.group(3)
+            label = f"{sink_id} {name}"
+            if default_mark == "*":
+              continue
+            outputs.append(label)
+
+# Use wofi for selection
+if outputs:
+    outputs.sort()
+    choices = "\n".join(outputs)
+    proc = subprocess.run(["walker", "--dmenu", "--placeholder", "Select Audio Output"], input=choices, capture_output=True, text=True)
+    selection = proc.stdout.strip()
+    if selection:
+        sink_id = selection.split()[0]
+        subprocess.run(["wpctl", "set-default", sink_id])
+
